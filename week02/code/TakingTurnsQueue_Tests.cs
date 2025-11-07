@@ -12,6 +12,8 @@ public class TakingTurnsQueueTests
     // run until the queue is empty
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
     // Defect(s) Found: 
+    // 1. In PersonQueue, Enqueue was adding to the front instead of the back, causing LIFO behavior instead of FIFO.
+    // 2. In TakingTurnsQueue, GetNextPerson was not re-enqueueing people with infinite turns (turns <= 0).
     public void TestTakingTurnsQueue_FiniteRepetition()
     {
         var bob = new Person("Bob", 2);
@@ -44,6 +46,8 @@ public class TakingTurnsQueueTests
     // After running 5 times, add George with 3 turns.  Run until the queue is empty.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, George, Sue, Tim, George, Tim, George
     // Defect(s) Found: 
+    // 1. In PersonQueue, Enqueue was adding to the front instead of the back, causing LIFO behavior instead of FIFO.
+    // 2. In TakingTurnsQueue, GetNextPerson was not re-enqueueing people with infinite turns (turns <= 0).
     public void TestTakingTurnsQueue_AddPlayerMidway()
     {
         var bob = new Person("Bob", 2);
@@ -86,6 +90,7 @@ public class TakingTurnsQueueTests
     // Run 10 times.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
     // Defect(s) Found: 
+    // In TakingTurnsQueue, GetNextPerson was not re-enqueueing people with infinite turns (turns <= 0).
     public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
@@ -117,6 +122,7 @@ public class TakingTurnsQueueTests
     // Run 10 times.
     // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
     // Defect(s) Found: 
+    // In TakingTurnsQueue, GetNextPerson was not re-enqueueing people with infinite turns (turns <= 0).
     public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
@@ -143,7 +149,7 @@ public class TakingTurnsQueueTests
     [TestMethod]
     // Scenario: Try to get the next person from an empty queue
     // Expected Result: Exception should be thrown with appropriate error message.
-    // Defect(s) Found: 
+    // Defect(s) Found: None
     public void TestTakingTurnsQueue_Empty()
     {
         var players = new TakingTurnsQueue();
